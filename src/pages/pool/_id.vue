@@ -64,16 +64,16 @@
           v-if="!appLoading && missingPrices"
           type="warning"
           :title="$t('noPriceInfo')"
-          size="sm"
           class="mt-2"
+          block
         />
         <BalAlert
           v-if="!appLoading && noInitLiquidity"
           type="warning"
           :title="$t('noInitLiquidity')"
           :description="$t('noInitLiquidityDetail')"
-          size="sm"
           class="mt-2"
+          block
         />
       </div>
 
@@ -98,8 +98,11 @@
           </div>
 
           <div>
-            <h4 v-text="$t('poolTransactions')" class="px-4 lg:px-0 mb-2" />
-            <PoolActivitiesCard :pool="pool" :loading="loadingPool" />
+            <h4
+              v-text="$t('poolTransactions.title')"
+              class="px-4 lg:px-0 mb-2"
+            />
+            <PoolTransactionsCard :pool="pool" :loading="loadingPool" />
           </div>
         </div>
       </div>
@@ -113,14 +116,18 @@
           class="pool-actions-card h-60 mb-4"
         />
         <MyPoolBalancesCard
-          v-else
+          v-else-if="!noInitLiquidity"
           :pool="pool"
           :missingPrices="missingPrices"
           class="mb-4"
         />
 
         <BalLoadingBlock v-if="loadingPool" class="pool-actions-card h-40" />
-        <PoolActionsCard v-else :pool="pool" :missingPrices="missingPrices" />
+        <PoolActionsCard
+          v-else-if="!noInitLiquidity"
+          :pool="pool"
+          :missingPrices="missingPrices"
+        />
       </div>
       <div v-else class="order-1 lg:order-2 px-1 lg:px-0">
         <BalCard noPad imgSrc="/images/partners/copper-launch.png">
