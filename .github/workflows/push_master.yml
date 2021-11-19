@@ -1,8 +1,8 @@
-name: push develop
+name: push master
 
 on:
   push:
-    branches: [dev]
+    branches: [master]
 
 jobs:
   extract_branch:
