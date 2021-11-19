@@ -14,31 +14,20 @@ jobs:
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
 
-  build:
+  # TODO run check before deploy
+  deploy:
     runs-on: ubuntu-latest
+    needs: [extract_branch]
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - name: Install deps
-        run: npm install -g npm@7 && npm ci
-      - name: Run build
-        env:
-          VUE_APP_FATHOM_SITE_ID: xxx
-          VUE_APP_GA_ID: xxx
-        run: npm run build
-      - uses: actions/upload-artifact@master
-        with:
-          name: build_result
-          path: ./dist
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build, extract_branch]
-    steps:
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          fathom_side_id: 'xxx'
+          ga_id: 'xxx'
+
       - uses: actions/download-artifact@master
         with:
           name: build_result
@@ -63,3 +52,5 @@ jobs:
         env:
           CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+
+  # TODO notify slack about deploy result

@@ -3,10 +3,6 @@ name: PR Checks
 on:
   - pull_request
 
-env:
-  VUE_APP_FATHOM_SITE_ID: xxx
-  VUE_APP_GA_ID: xxx
-
 jobs:
   Version:
     runs-on: ubuntu-latest
@@ -42,15 +38,11 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
-    - name: Install deps
-      run: npm install -g npm@7 && npm ci
-    - name: Run build
-      run: npm run build
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/build
+        with:
+          fathom_side_id: 'xxx'
+          ga_id: 'xxx'
 
   Lint:
     runs-on: ubuntu-latest
