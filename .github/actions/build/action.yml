@@ -2,13 +2,21 @@ name: "build"
 description: "built static"
 
 inputs:
+  infura_project_id:
+    description: “INFURA_PROJECT_ID”
+    required: true
+  alchemy_key:
+    description: “ALCHEMY_KEY”
+    required: true
+  blocknative_dapp_id:
+    description: “BLOCKNATIVE_DAPP_ID”
+    required: true
+  portis_dapp_id:
+    description: “PORTIS_DAPP_ID”
   fathom_side_id:
-    description: “FATHOM_SITE_ID”
-    required: true
+    description: “FATHOM analitics”
   ga_id:
-    description: “GA_ID”
-    required: true
-
+    description: “GA analitics”
 runs:
   using: "composite"
   steps:
@@ -24,13 +32,18 @@ runs:
 
     - name: Run build
       env:
+        VUE_APP_INFURA_PROJECT_ID: ${{inputs.infura_project_id}}
+        VUE_APP_ALCHEMY_KEY: ${{inputs.alchemy_key}}
+        VUE_APP_BLOCKNATIVE_DAPP_ID: ${{inputs.blocknative_dapp_id}}
+
+        VUE_APP_PORTIS_DAPP_ID: ${{inputs.portis_dapp_id}}
         VUE_APP_FATHOM_SITE_ID: ${{inputs.fathom_side_id}}
         VUE_APP_GA_ID: ${{inputs.ga_id}}
       run: npm run build
       shell: bash
 
-    - name: Share builded assets
-      uses: actions/upload-artifact@master
-      with:
-        name: build_result
-        path: ./dist
+#    - name: Share builded assets
+#      uses: actions/upload-artifact@master
+#      with:
+#        name: build_result
+#        path: ./dist

@@ -1,7 +1,11 @@
-name: PR Checks
+name: Checks
 
 on:
   - pull_request
+
+env:
+  VUE_APP_FATHOM_SITE_ID: xxx
+  VUE_APP_GA_ID: xxx
 
 jobs:
   Version:
@@ -39,10 +43,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/actions/build
+      - name: Use Node.js
+        uses: actions/setup-node@v1
         with:
-          fathom_side_id: 'xxx'
-          ga_id: 'xxx'
+          node-version: '14.x'
+      - name: Install deps
+        run: npm install -g npm@7 && npm ci
+      - name: Run build
+        run: npm run build
 
   Lint:
     runs-on: ubuntu-latest
