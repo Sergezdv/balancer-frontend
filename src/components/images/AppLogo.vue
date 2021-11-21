@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <AppIcon />
     <span class="mr-1 font-secondary text-xl font-semibold">
-      Ureeka v0.0.3
+      Ureeka v0.0.4
     </span>
   </div>
 </template>
