@@ -8,7 +8,6 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:dev": "vue-cli-service build --mode development",
     "test:unit": "vue-cli-service test:unit --passWithNoTests",
     "lint": "vue-cli-service lint --no-fix --max-warnings 0",
     "import-abis": "cp ../core/deployments/artifacts/dockerParity/*.json ./src/utils/balancer/abi/.",
@@ -16,7 +15,8 @@
     "lint:fix": "vue-cli-service lint",
     "prepare": "node ./prepare.js",
     "tailwind:build": "tailwind-config-viewer export ./tailwind-static",
-    "tailwind:view": "tailwind-config-viewer -o"
+    "tailwind:view": "tailwind-config-viewer -o",
+    "deploy": "npx ipfs-deploy ./dist -p pinata -d cloudflare -t 'ureeka-local'"
   },
   "dependencies": {},
   "devDependencies": {

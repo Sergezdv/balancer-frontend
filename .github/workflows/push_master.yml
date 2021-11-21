@@ -2,7 +2,7 @@ name: push master
 
 on:
   push:
-    branches: [master, test_build]
+    branches: [ master ]
 
 jobs:
   # TODO run check before deploy
@@ -32,8 +32,6 @@ jobs:
           IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
           IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.CLOUDFLARE_TXT_RECORD }}
-        run: |
-          npm install xsel
-          npx ipfs-deploy ./dist -p pinata -d cloudflare -t "ureeka-$GITHUB_REF_NAME"
+        run: npx ipfs-deploy ./dist -p pinata -d cloudflare -t "ureeka-$GITHUB_REF_NAME"
 
   # TODO notify slack about deploy result

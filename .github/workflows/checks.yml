@@ -1,7 +1,9 @@
 name: Checks
 
 on:
-  - pull_request
+  pull_request:
+  push:
+    branches: [ master, develop ]
 
 env:
   VUE_APP_FATHOM_SITE_ID: xxx
