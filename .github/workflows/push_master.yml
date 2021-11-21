@@ -2,10 +2,10 @@ name: push master
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, test_build ]
 
 jobs:
-  # TODO run check before deploy
+  # TODO run check before deploy - optional
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +30,8 @@ jobs:
           IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_API_KEY }}
           IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
           IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
-          IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.CLOUDFLARE_TXT_RECORD }}
+          IPFS_DEPLOY_CLOUDFLARE__ZONE: ureeka.finance
+          IPFS_DEPLOY_CLOUDFLARE__RECORD: _dnslink.ureeka.finance
         run: npx ipfs-deploy ./dist -p pinata -d cloudflare -t "ureeka-$GITHUB_REF_NAME"
 
-  # TODO notify slack about deploy result
+  # TODO notify slack about deploy result - optional
