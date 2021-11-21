@@ -42,6 +42,13 @@ export default class BlocknativeProvider {
           }
         }
       );
+
+      console.log(
+        'getLatest :: process.env.VUE_APP_BLOCKNATIVE_DAPP_ID',
+        process.env.VUE_APP_BLOCKNATIVE_DAPP_ID,
+        response
+      );
+
       const estimatedPrices = response.data.blockPrices[0].estimatedPrices;
 
       let gasPrice: BlocknativeEstimatedPrice | undefined;

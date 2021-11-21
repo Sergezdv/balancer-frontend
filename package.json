@@ -8,6 +8,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:dev": "vue-cli-service build --mode development",
     "test:unit": "vue-cli-service test:unit --passWithNoTests",
     "lint": "vue-cli-service lint --no-fix --max-warnings 0",
     "import-abis": "cp ../core/deployments/artifacts/dockerParity/*.json ./src/utils/balancer/abi/.",

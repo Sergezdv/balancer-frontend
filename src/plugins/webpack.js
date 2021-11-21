@@ -10,17 +10,17 @@ if (process.env.VUE_APP_SENTRY_AUTH_TOKEN) {
   const sentryWebpack = new SentryWebpackPlugin({
     // sentry-cli configuration
     authToken: process.env.VUE_APP_SENTRY_AUTH_TOKEN,
-    org: 'balancer-labs',
-    project: 'app',
+    org: 'local-tests-yf',
+    project: 'bal-fv2',
     release: release,
     // webpack specific configuration
     include: './dist',
     ignore: ['node_modules', 'webpack.config.js']
   });
 
-  if (['production', 'staging'].includes(ENV)) {
-    plugins.push(sentryWebpack);
-  }
+  // if (['production', 'staging'].includes(ENV)) {
+  plugins.push(sentryWebpack);
+  // }
 }
 
 module.exports = plugins;
