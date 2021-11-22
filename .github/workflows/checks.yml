@@ -1,7 +1,9 @@
 name: Checks
 
 on:
-  - pull_request
+  pull_request:
+  push:
+    branches: [ master, develop ]
 
 env:
   VUE_APP_FATHOM_SITE_ID: xxx
@@ -31,6 +33,7 @@ jobs:
       uses: EndBug/version-check@v2
       with:
         diff-search: true
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Log when changed
       if: steps.check.outputs.changed == 'true'
       run: 'echo "Version change found in commit ${{ steps.check.outputs.commit }}! New version: ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
@@ -63,7 +66,7 @@ jobs:
       run: npm install -g npm@7 && npm ci
     - name: Run lint
       run: npm run lint
-        
+
   Test:
     runs-on: ubuntu-latest
     steps:

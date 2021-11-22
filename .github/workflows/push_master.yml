@@ -1,0 +1,37 @@
+name: push master
+
+on:
+  push:
+    branches: [ master, test_build ]
+
+jobs:
+  # TODO run check before deploy - optional
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Build
+        env:
+          VUE_APP_FATHOM_SITE_ID: xxx
+          VUE_APP_GA_ID: xxx
+          VUE_APP_IPFS_NODE: ipfs.fleek.co
+          VUE_APP_NETWORK: 42
+          VUE_APP_INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          VUE_APP_ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
+          VUE_APP_BLOCKNATIVE_DAPP_ID: ${{ secrets.BLOCKNATIVE_DAPP_ID }}
+          VUE_APP_PORTIS_DAPP_ID: ${{ secrets.PORTIS_DAPP_ID }}
+          SUBGRAPH_URL: https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2
+        uses: ./.github/actions/build
+
+      - name: ipfs deploy (Upload to PINATA, pin and Update CLOUDFLARE DNS TXT)
+        env:
+          IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_API_KEY }}
+          IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+          IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          IPFS_DEPLOY_CLOUDFLARE__ZONE: ureeka.finance
+          IPFS_DEPLOY_CLOUDFLARE__RECORD: _dnslink.ureeka.finance
+        run: npx ipfs-deploy ./dist -p pinata -d cloudflare -t "ureeka-$GITHUB_REF_NAME"
+
+  # TODO notify slack about deploy result - optional
